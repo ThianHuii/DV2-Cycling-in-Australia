@@ -1,0 +1,135 @@
+{
+  "width": 420,
+  "height": 340,
+  "title": {
+    "text": "Melbourne detail",
+    "fontSize": 14,
+    "anchor": "start"
+  },
+  "projection": {
+    "type": "mercator"
+  },
+  "data": {
+    "values": [
+      {
+        "LGA": "Moreland",
+        "Count": 2620,
+        "Longitude": 144.949,
+        "Latitude": -37.73
+      },
+      {
+        "LGA": "Yarra",
+        "Count": 2260,
+        "Longitude": 144.999,
+        "Latitude": -37.802
+      },
+      {
+        "LGA": "Melbourne",
+        "Count": 2010,
+        "Longitude": 144.944,
+        "Latitude": -37.811
+      },
+      {
+        "LGA": "Darebin",
+        "Count": 1890,
+        "Longitude": 145.014,
+        "Latitude": -37.733
+      },
+      {
+        "LGA": "Port Phillip",
+        "Count": 1356,
+        "Longitude": 144.966,
+        "Latitude": -37.852
+      }
+    ]
+  },
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    },
+    "legend": {
+      "titleFontSize": 12,
+      "labelFontSize": 11
+    }
+  },
+  "background": "white",
+  "layer": [
+    {
+      "mark": {
+        "type": "circle",
+        "color": "#E66100",
+        "opacity": 0.6,
+        "stroke": "#8f3c00",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "longitude": {
+          "field": "Longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "Latitude",
+          "type": "quantitative"
+        },
+        "size": {
+          "field": "Count",
+          "type": "quantitative",
+          "title": "Bicycle commuters",
+          "scale": {
+            "type": "linear",
+            "domain": [
+              0,
+              8000
+            ],
+            "range": [
+              0,
+              1400
+            ]
+          },
+          "legend": null
+        },
+        "order": {
+          "field": "Count",
+          "type": "quantitative",
+          "sort": "descending"
+        },
+        "tooltip": [
+          {
+            "field": "LGA",
+            "title": "Local government area"
+          },
+          {
+            "field": "Count",
+            "type": "quantitative",
+            "title": "Bicycle commuters",
+            "format": ","
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 18,
+        "fontSize": 12,
+        "color": "#243746"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "Longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "Latitude",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "LGA"
+        }
+      }
+    }
+  ]
+}

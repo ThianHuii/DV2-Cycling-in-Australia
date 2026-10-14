@@ -1,0 +1,289 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 640,
+  "height": 340,
+  "background": "#ffffff",
+  "title": {
+    "text": "Cycling to work fell from 1.0% to 0.7%",
+    "subtitle": [
+      "Bicycle as the main travel mode, as a share of all employed people."
+    ],
+    "anchor": "start",
+    "fontSize": 21,
+    "subtitleFontSize": 12,
+    "subtitlePadding": 10,
+    "offset": 20,
+    "color": "#243746"
+  },
+  "data": {
+    "values": [
+      {
+        "Year": 2016,
+        "Cyclists": 107962,
+        "Employed": 10683842
+      },
+      {
+        "Year": 2021,
+        "Cyclists": 79457,
+        "Employed": 12049410
+      }
+    ]
+  },
+  "transform": [
+    {
+      "calculate": "datum.Cyclists / datum.Employed * 100",
+      "as": "Pct"
+    },
+    {
+      "calculate": "format(datum.Pct, '.1f') + '%'",
+      "as": "Label"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "line",
+        "color": "#E66100",
+        "strokeWidth": 3,
+        "point": {
+          "filled": true,
+          "size": 130,
+          "color": "#E66100"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "quantitative",
+          "title": "Census year",
+          "scale": {
+            "domain": [
+              2015,
+              2022
+            ]
+          },
+          "axis": {
+            "values": [
+              2016,
+              2021
+            ],
+            "format": "d",
+            "grid": false,
+            "labelFontSize": 13,
+            "titleFontSize": 12
+          }
+        },
+        "y": {
+          "field": "Pct",
+          "type": "quantitative",
+          "title": "% of employed people who cycled to work",
+          "scale": {
+            "domain": [
+              0,
+              1.6
+            ]
+          },
+          "axis": {
+            "format": ".1f",
+            "labelExpr": "datum.label + '%'",
+            "tickCount": 4,
+            "titleFontSize": 12,
+            "gridColor": "#e5e7eb"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "Year",
+            "type": "quantitative",
+            "title": "Census year",
+            "format": "d"
+          },
+          {
+            "field": "Pct",
+            "type": "quantitative",
+            "title": "% of employed people",
+            "format": ".2f"
+          },
+          {
+            "field": "Cyclists",
+            "type": "quantitative",
+            "title": "People who cycled",
+            "format": ","
+          },
+          {
+            "field": "Employed",
+            "type": "quantitative",
+            "title": "All employed people",
+            "format": ","
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "fontSize": 14,
+        "fontWeight": "bold",
+        "color": "#E66100",
+        "dy": -16
+      },
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "Pct",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "Label",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "Year": 2016,
+            "Y": 1.01
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "bottom",
+        "dx": -6,
+        "dy": -62,
+        "fontSize": 12,
+        "color": "#374151",
+        "lineHeight": 15,
+        "text": [
+          "Before COVID-19: about",
+          "1 in 100 workers cycled",
+          "(107,962 people)"
+        ]
+      },
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "Y",
+          "type": "quantitative"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "Year": 2018.5,
+            "Y": 0.835
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "bottom",
+        "dx": 14,
+        "dy": -16,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "color": "#374151",
+        "lineHeight": 15,
+        "text": [
+          "26.4% fewer bicycle commuters",
+          "in 2021 than in 2016"
+        ]
+      },
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "Y",
+          "type": "quantitative"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "Year": 2021,
+            "Y1": 0.56,
+            "Y2": 0.42
+          }
+        ]
+      },
+      "mark": {
+        "type": "rule",
+        "color": "#9ca3af",
+        "strokeDash": [
+          4,
+          3
+        ],
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "Y1",
+          "type": "quantitative"
+        },
+        "y2": {
+          "field": "Y2"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "Year": 2021,
+            "Y": 0.4
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "top",
+        "dx": 40,
+        "fontSize": 12,
+        "color": "#374151",
+        "lineHeight": 15,
+        "text": [
+          "2021 pandemic context:",
+          "Restrictions and working from home",
+          "disrupted commuting."
+        ]
+      },
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "Y",
+          "type": "quantitative"
+        }
+      }
+    }
+  ],
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "font": "Arial"
+  }
+}
