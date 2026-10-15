@@ -1,0 +1,422 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "background": "#ffffff",
+  "padding": 20,
+  "spacing": 22,
+  "title": {
+    "text": "NT and ACT lead in cycling to work",
+    "subtitle": [
+      "The territories held the top two positions in 2011, 2016 and 2021.",
+      "Bicycle-only commuting share • Place of work • Rank 1 = highest share."
+    ],
+    "anchor": "start",
+    "fontSize": 22,
+    "color": "#243746",
+    "subtitleFontSize": 12,
+    "subtitleColor": "#555555",
+    "subtitlePadding": 10,
+    "offset": 20
+  },
+  "vconcat": [
+    {
+      "width": 620,
+      "height": 380,
+      "data": {
+        "values": [
+          {
+            "Year": 2011,
+            "State": "NSW",
+            "Bicycle": 22817,
+            "Employed": 3033526
+          },
+          {
+            "Year": 2011,
+            "State": "VIC",
+            "Bicycle": 30368,
+            "Employed": 2451896
+          },
+          {
+            "Year": 2011,
+            "State": "QLD",
+            "Bicycle": 21197,
+            "Employed": 1991750
+          },
+          {
+            "Year": 2011,
+            "State": "SA",
+            "Bicycle": 7348,
+            "Employed": 719221
+          },
+          {
+            "Year": 2011,
+            "State": "WA",
+            "Bicycle": 11634,
+            "Employed": 1084381
+          },
+          {
+            "Year": 2011,
+            "State": "TAS",
+            "Bicycle": 1340,
+            "Employed": 211549
+          },
+          {
+            "Year": 2011,
+            "State": "NT",
+            "Bicycle": 2792,
+            "Employed": 99481
+          },
+          {
+            "Year": 2011,
+            "State": "ACT",
+            "Bicycle": 4762,
+            "Employed": 214091
+          },
+          {
+            "Year": 2016,
+            "State": "NSW",
+            "Bicycle": 23204,
+            "Employed": 3358175
+          },
+          {
+            "Year": 2016,
+            "State": "VIC",
+            "Bicycle": 33868,
+            "Employed": 2730340
+          },
+          {
+            "Year": 2016,
+            "State": "QLD",
+            "Bicycle": 21659,
+            "Employed": 2130869
+          },
+          {
+            "Year": 2016,
+            "State": "SA",
+            "Bicycle": 7435,
+            "Employed": 742822
+          },
+          {
+            "Year": 2016,
+            "State": "WA",
+            "Bicycle": 11774,
+            "Employed": 1166246
+          },
+          {
+            "Year": 2016,
+            "State": "TAS",
+            "Bicycle": 1629,
+            "Employed": 215363
+          },
+          {
+            "Year": 2016,
+            "State": "NT",
+            "Bicycle": 2634,
+            "Employed": 109756
+          },
+          {
+            "Year": 2016,
+            "State": "ACT",
+            "Bicycle": 5532,
+            "Employed": 227468
+          },
+          {
+            "Year": 2021,
+            "State": "NSW",
+            "Bicycle": 14409,
+            "Employed": 3672240
+          },
+          {
+            "Year": 2021,
+            "State": "VIC",
+            "Bicycle": 22268,
+            "Employed": 3163746
+          },
+          {
+            "Year": 2021,
+            "State": "QLD",
+            "Bicycle": 17078,
+            "Employed": 2428219
+          },
+          {
+            "Year": 2021,
+            "State": "SA",
+            "Bicycle": 7310,
+            "Employed": 834812
+          },
+          {
+            "Year": 2021,
+            "State": "WA",
+            "Bicycle": 8756,
+            "Employed": 1308799
+          },
+          {
+            "Year": 2021,
+            "State": "TAS",
+            "Bicycle": 1760,
+            "Employed": 252238
+          },
+          {
+            "Year": 2021,
+            "State": "NT",
+            "Bicycle": 2188,
+            "Employed": 112217
+          },
+          {
+            "Year": 2021,
+            "State": "ACT",
+            "Bicycle": 5295,
+            "Employed": 274375
+          }
+        ]
+      },
+      "transform": [
+        {
+          "calculate": "datum.Bicycle / datum.Employed",
+          "as": "Share"
+        },
+        {
+          "window": [
+            {
+              "op": "rank",
+              "as": "Rank"
+            }
+          ],
+          "sort": [
+            {
+              "field": "Share",
+              "order": "descending"
+            }
+          ],
+          "groupby": [
+            "Year"
+          ]
+        },
+        {
+          "calculate": "datum.State + '  ' + format(datum.Share, '.2%')",
+          "as": "EndLabel"
+        }
+      ],
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              2010,
+              2023
+            ],
+            "zero": false,
+            "nice": false
+          },
+          "axis": {
+            "title": "Census year",
+            "values": [
+              2011,
+              2016,
+              2021
+            ],
+            "format": "d",
+            "grid": false,
+            "labelAngle": 0,
+            "titlePadding": 12
+          }
+        },
+        "y": {
+          "field": "Rank",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              8.5,
+              0.5
+            ],
+            "zero": false,
+            "nice": false
+          },
+          "axis": {
+            "title": "Rank by cycling share",
+            "values": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "format": "d",
+            "gridColor": "#E8ECEF",
+            "titlePadding": 15
+          }
+        },
+        "color": {
+          "field": "State",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "NT",
+              "ACT",
+              "SA",
+              "VIC",
+              "QLD",
+              "TAS",
+              "WA",
+              "NSW"
+            ],
+            "range": [
+              "#D55E00",
+              "#0072B2",
+              "#009E73",
+              "#8B5FBF",
+              "#B89B00",
+              "#CC79A7",
+              "#56B4E9",
+              "#555555"
+            ]
+          },
+          "legend": null
+        }
+      },
+      "layer": [
+        {
+          "mark": {
+            "type": "line",
+            "strokeWidth": 3
+          },
+          "encoding": {
+            "detail": {
+              "field": "State"
+            },
+            "order": {
+              "field": "Year",
+              "type": "quantitative"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "point",
+            "filled": true,
+            "size": 160,
+            "stroke": "#ffffff",
+            "strokeWidth": 2
+          },
+          "encoding": {
+            "tooltip": [
+              {
+                "field": "State",
+                "type": "nominal",
+                "title": "State / territory"
+              },
+              {
+                "field": "Year",
+                "type": "quantitative",
+                "title": "Census year",
+                "format": "d"
+              },
+              {
+                "field": "Rank",
+                "type": "quantitative",
+                "title": "Rank",
+                "format": "d"
+              },
+              {
+                "field": "Share",
+                "type": "quantitative",
+                "title": "Bicycle-only commuting share",
+                "format": ".2%"
+              },
+              {
+                "field": "Bicycle",
+                "type": "quantitative",
+                "title": "Bicycle-only commuters",
+                "format": ","
+              }
+            ]
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.Year == 2011"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "align": "right",
+            "dx": -12,
+            "fontSize": 12,
+            "fontWeight": "bold"
+          },
+          "encoding": {
+            "text": {
+              "field": "State"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.Year == 2021"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "dx": 12,
+            "fontSize": 12,
+            "fontWeight": "bold"
+          },
+          "encoding": {
+            "text": {
+              "field": "EndLabel"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "width": 620,
+      "height": 76,
+      "data": {
+        "values": [
+          {
+            "Note": "ACT overtook NT in 2016, but NT regained first place in 2021.\nSouth Australia climbed from sixth to third despite its\ncycling share falling from 1.02% to 0.88%."
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "top",
+        "fontSize": 12,
+        "color": "#243746",
+        "lineBreak": "\n",
+        "lineHeight": 20
+      },
+      "encoding": {
+        "x": {
+          "value": 0
+        },
+        "y": {
+          "value": 0
+        },
+        "text": {
+          "field": "Note"
+        }
+      }
+    }
+  ],
+  "config": {
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "domain": false,
+      "tickColor": "#CCCCCC",
+      "labelFontSize": 12,
+      "titleFontSize": 12
+    }
+  }
+}

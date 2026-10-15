@@ -1,0 +1,233 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "background": "#ffffff",
+  "padding": 15,
+  "spacing": 20,
+  "title": {
+    "text": "Cars dominate the journey to work",
+    "subtitle": [
+      "Among people who travelled to work on Census day, 10 August 2021.",
+      "Each square represents approximately 1%; rounded to 100 squares."
+    ],
+    "anchor": "start",
+    "fontSize": 22,
+    "fontWeight": "bold",
+    "color": "#243746",
+    "subtitleFontSize": 12,
+    "subtitleColor": "#555555",
+    "subtitlePadding": 10,
+    "offset": 18
+  },
+  "vconcat": [
+    {
+      "width": 350,
+      "height": 350,
+      "data": {
+        "values": [
+          {
+            "order": 1,
+            "mode": "Car",
+            "people": 6868666,
+            "squares": 85
+          },
+          {
+            "order": 2,
+            "mode": "Public transport",
+            "people": 554717,
+            "squares": 7
+          },
+          {
+            "order": 3,
+            "mode": "Walked",
+            "people": 306045,
+            "squares": 4
+          },
+          {
+            "order": 4,
+            "mode": "Bicycle",
+            "people": 79457,
+            "squares": 1
+          },
+          {
+            "order": 5,
+            "mode": "Other",
+            "people": 232664,
+            "squares": 3
+          }
+        ]
+      },
+      "transform": [
+        {
+          "joinaggregate": [
+            {
+              "op": "sum",
+              "field": "people",
+              "as": "totalPeople"
+            }
+          ]
+        },
+        {
+          "calculate": "datum.people / datum.totalPeople",
+          "as": "share"
+        },
+        {
+          "window": [
+            {
+              "op": "sum",
+              "field": "squares",
+              "as": "end"
+            }
+          ],
+          "sort": [
+            {
+              "field": "order",
+              "order": "ascending"
+            }
+          ],
+          "frame": [
+            null,
+            0
+          ]
+        },
+        {
+          "calculate": "datum.end - datum.squares",
+          "as": "start"
+        },
+        {
+          "calculate": "sequence(datum.start, datum.end)",
+          "as": "index"
+        },
+        {
+          "flatten": [
+            "index"
+          ]
+        },
+        {
+          "calculate": "datum.index % 10",
+          "as": "column"
+        },
+        {
+          "calculate": "floor(datum.index / 10)",
+          "as": "row"
+        }
+      ],
+      "mark": {
+        "type": "rect",
+        "cornerRadius": 3,
+        "stroke": "#ffffff",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "x": {
+          "field": "column",
+          "type": "ordinal",
+          "sort": "ascending",
+          "axis": null,
+          "scale": {
+            "paddingInner": 0.12,
+            "paddingOuter": 0.02
+          }
+        },
+        "y": {
+          "field": "row",
+          "type": "ordinal",
+          "sort": "ascending",
+          "axis": null,
+          "scale": {
+            "paddingInner": 0.12,
+            "paddingOuter": 0.02
+          }
+        },
+        "color": {
+          "field": "mode",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Car",
+              "Public transport",
+              "Walked",
+              "Bicycle",
+              "Other"
+            ],
+            "range": [
+              "#334155",
+              "#0072B2",
+              "#009E73",
+              "#E66100",
+              "#A879C5"
+            ]
+          },
+          "legend": {
+            "title": null,
+            "orient": "bottom",
+            "rows": 2,
+            "labelFontSize": 12,
+            "labelLimit": 180,
+            "symbolType": "square",
+            "symbolSize": 150,
+            "columnPadding": 20,
+            "rowPadding": 8,
+            "offset": 16
+          }
+        },
+        "tooltip": [
+          {
+            "field": "mode",
+            "type": "nominal",
+            "title": "Travel mode"
+          },
+          {
+            "field": "share",
+            "type": "quantitative",
+            "title": "Share of reported transport modes",
+            "format": ".1%"
+          },
+          {
+            "field": "people",
+            "type": "quantitative",
+            "title": "Number of people",
+            "format": ","
+          }
+        ]
+      }
+    },
+    {
+      "width": 350,
+      "height": 48,
+      "data": {
+        "values": [
+          {
+            "note": "Car commuters outnumbered bicycle commuters\nby about 86 to 1, including drivers and passengers."
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "top",
+        "fontSize": 13,
+        "fontWeight": "bold",
+        "color": "#243746",
+        "lineBreak": "\n",
+        "lineHeight": 19
+      },
+      "encoding": {
+        "x": {
+          "value": 0
+        },
+        "y": {
+          "value": 0
+        },
+        "text": {
+          "field": "note"
+        }
+      }
+    }
+  ],
+  "config": {
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    }
+  }
+}

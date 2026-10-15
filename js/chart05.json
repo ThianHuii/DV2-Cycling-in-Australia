@@ -1,0 +1,344 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "background": "#ffffff",
+  "title": {
+    "text": "Who cycles to work? Age and sex",
+    "subtitle": [
+      "The 25–34 age group had the most bicycle commuters for both sexes.",
+      "Australia, 2021 • Counts, rather than age-specific participation rates."
+    ],
+    "anchor": "start",
+    "fontSize": 20,
+    "subtitleFontSize": 12,
+    "subtitlePadding": 8,
+    "offset": 18,
+    "color": "#243746"
+  },
+  "data": {
+    "values": [
+      {
+        "Age": "15–24",
+        "Sex": "Male",
+        "Count": 8291
+      },
+      {
+        "Age": "15–24",
+        "Sex": "Female",
+        "Count": 2397
+      },
+      {
+        "Age": "25–34",
+        "Sex": "Male",
+        "Count": 13273
+      },
+      {
+        "Age": "25–34",
+        "Sex": "Female",
+        "Count": 6322
+      },
+      {
+        "Age": "35–44",
+        "Sex": "Male",
+        "Count": 12780
+      },
+      {
+        "Age": "35–44",
+        "Sex": "Female",
+        "Count": 4987
+      },
+      {
+        "Age": "45–54",
+        "Sex": "Male",
+        "Count": 12632
+      },
+      {
+        "Age": "45–54",
+        "Sex": "Female",
+        "Count": 4672
+      },
+      {
+        "Age": "55–64",
+        "Sex": "Male",
+        "Count": 8607
+      },
+      {
+        "Age": "55–64",
+        "Sex": "Female",
+        "Count": 3038
+      },
+      {
+        "Age": "65–74",
+        "Sex": "Male",
+        "Count": 1570
+      },
+      {
+        "Age": "65–74",
+        "Sex": "Female",
+        "Count": 393
+      },
+      {
+        "Age": "75+",
+        "Sex": "Male",
+        "Count": 93
+      },
+      {
+        "Age": "75+",
+        "Sex": "Female",
+        "Count": 17
+      }
+    ]
+  },
+  "transform": [
+    {
+      "calculate": "datum.Sex == 'Male' ? -datum.Count : datum.Count",
+      "as": "PlotValue"
+    }
+  ],
+  "spacing": 18,
+  "vconcat": [
+    {
+      "width": 680,
+      "height": 350,
+      "encoding": {
+        "y": {
+          "field": "Age",
+          "type": "ordinal",
+          "sort": [
+            "15–24",
+            "25–34",
+            "35–44",
+            "45–54",
+            "55–64",
+            "65–74",
+            "75+"
+          ],
+          "title": "Age group (years)",
+          "axis": {
+            "labelPadding": 10,
+            "labelFontSize": 13,
+            "titlePadding": 15,
+            "ticks": false,
+            "domain": false
+          }
+        },
+        "x": {
+          "field": "PlotValue",
+          "type": "quantitative",
+          "title": "Number of bicycle commuters",
+          "scale": {
+            "domain": [
+              -16000,
+              16000
+            ],
+            "nice": false
+          },
+          "axis": {
+            "values": [
+              -15000,
+              -10000,
+              -5000,
+              0,
+              5000,
+              10000,
+              15000
+            ],
+            "labelExpr": "format(abs(datum.value), ',.0f')",
+            "grid": true,
+            "gridColor": "#e5e7eb",
+            "titlePadding": 14,
+            "labelPadding": 7
+          }
+        }
+      },
+      "layer": [
+        {
+          "mark": {
+            "type": "bar",
+            "size": 29,
+            "cornerRadiusEnd": 3
+          },
+          "encoding": {
+            "color": {
+              "field": "Sex",
+              "type": "nominal",
+              "scale": {
+                "domain": [
+                  "Male",
+                  "Female"
+                ],
+                "range": [
+                  "#B38A00",
+                  "#D55E00"
+                ]
+              },
+              "legend": {
+                "title": null,
+                "orient": "top",
+                "direction": "horizontal",
+                "symbolType": "square",
+                "symbolSize": 160,
+                "labelFontSize": 13
+              }
+            },
+            "tooltip": [
+              {
+                "field": "Age",
+                "type": "ordinal",
+                "title": "Age group (years)"
+              },
+              {
+                "field": "Sex",
+                "type": "nominal",
+                "title": "Sex"
+              },
+              {
+                "field": "Count",
+                "type": "quantitative",
+                "title": "Bicycle commuters",
+                "format": ","
+              }
+            ]
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.Sex == 'Male'"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "align": "right",
+            "baseline": "middle",
+            "dx": -7,
+            "fontSize": 12,
+            "color": "#243746"
+          },
+          "encoding": {
+            "text": {
+              "field": "Count",
+              "type": "quantitative",
+              "format": ","
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.Sex == 'Female'"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "dx": 7,
+            "fontSize": 12,
+            "color": "#243746"
+          },
+          "encoding": {
+            "text": {
+              "field": "Count",
+              "type": "quantitative",
+              "format": ","
+            }
+          }
+        },
+        {
+          "data": {
+            "values": [
+              {}
+            ]
+          },
+          "mark": {
+            "type": "rule",
+            "color": "#64748b",
+            "strokeWidth": 1
+          },
+          "encoding": {
+            "x": {
+              "datum": 0,
+              "type": "quantitative"
+            },
+            "y": {
+              "value": 0
+            },
+            "y2": {
+              "value": 350
+            }
+          }
+        }
+      ]
+    },
+    {
+      "width": 680,
+      "height": 58,
+      "data": {
+        "values": [
+          {
+            "Note": "Men accounted for 72.4% of bicycle commuters across these age groups.\nMale commuters outnumbered female commuters in every age group."
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "top",
+        "fontSize": 12,
+        "lineBreak": "\n",
+        "lineHeight": 20,
+        "color": "#4d4e4fe1"
+      },
+      "encoding": {
+        "x": {
+          "value": 0
+        },
+        "y": {
+          "value": 0
+        },
+        "text": {
+          "field": "Note"
+        }
+      }
+    },
+    {
+      "width": 680,
+      "height": 48,
+      "data": {},
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "top",
+        "fontSize": 10,
+        "lineBreak": "\n",
+        "lineHeight": 15,
+        "color": "#64748b"
+      },
+      "encoding": {
+        "x": {
+          "value": 0
+        },
+        "y": {
+          "value": 0
+        },
+        "text": {
+          "field": "Source"
+        }
+      }
+    }
+  ],
+  "config": {
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "domain": false,
+      "tickColor": "#cbd5e1",
+      "labelFontSize": 12,
+      "titleFontSize": 12,
+      "titleColor": "#374151",
+      "labelColor": "#374151"
+    }
+  }
+}

@@ -1,0 +1,204 @@
+{
+  "width": 650,
+  "height": 440,
+  "projection": {
+    "type": "mercator"
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/australian-states.geojson",
+        "format": {
+          "type": "json",
+          "property": "features"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#eef2f6",
+        "stroke": "#aab4bf",
+        "strokeWidth": 1
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "LGA": "Brisbane",
+            "Count": 7685,
+            "Longitude": 153.039,
+            "Latitude": -27.438
+          },
+          {
+            "LGA": "Unincorporated ACT",
+            "Count": 5216,
+            "Longitude": 149.002,
+            "Latitude": -35.489
+          },
+          {
+            "LGA": "Moreland",
+            "Count": 2620,
+            "Longitude": 144.949,
+            "Latitude": -37.73
+          },
+          {
+            "LGA": "Yarra",
+            "Count": 2260,
+            "Longitude": 144.999,
+            "Latitude": -37.802
+          },
+          {
+            "LGA": "Sydney",
+            "Count": 2035,
+            "Longitude": 151.203,
+            "Latitude": -33.889
+          },
+          {
+            "LGA": "Melbourne",
+            "Count": 2010,
+            "Longitude": 144.944,
+            "Latitude": -37.811
+          },
+          {
+            "LGA": "Gold Coast",
+            "Count": 1991,
+            "Longitude": 153.318,
+            "Latitude": -27.981
+          },
+          {
+            "LGA": "Darebin",
+            "Count": 1890,
+            "Longitude": 145.014,
+            "Latitude": -37.733
+          },
+          {
+            "LGA": "Port Phillip",
+            "Count": 1356,
+            "Longitude": 144.966,
+            "Latitude": -37.852
+          },
+          {
+            "LGA": "Sunshine Coast",
+            "Count": 1190,
+            "Longitude": 152.898,
+            "Latitude": -26.696
+          }
+        ]
+      },
+      "mark": {
+        "type": "circle",
+        "color": "#E66100",
+        "opacity": 0.65,
+        "stroke": "#8f3c00",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "longitude": {
+          "field": "Longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "Latitude",
+          "type": "quantitative"
+        },
+        "size": {
+          "field": "Count",
+          "type": "quantitative",
+          "title": "Bicycle commuters",
+          "scale": {
+            "type": "linear",
+            "domain": [
+              0,
+              8000
+            ],
+            "range": [
+              0,
+              1400
+            ]
+          },
+          "legend": {
+            "values": [
+              1000,
+              4000,
+              8000
+            ],
+            "format": ",.0f"
+          }
+        },
+        "order": {
+          "field": "Count",
+          "type": "quantitative",
+          "sort": "descending"
+        },
+        "tooltip": [
+          {
+            "field": "LGA",
+            "title": "Local government area"
+          },
+          {
+            "field": "Count",
+            "type": "quantitative",
+            "title": "Bicycle commuters",
+            "format": ","
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "Longitude": 153.039,
+            "Latitude": -27.438
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "text": [
+          "Brisbane LGA",
+          "7,685 commuters"
+        ],
+        "align": "right",
+        "dx": -25,
+        "dy": -15,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "color": "#374151"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "Longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "Latitude",
+          "type": "quantitative"
+        }
+      }
+    }
+  ],
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Brisbane LGA has the largest bicycle commuter count",
+    "subtitle": [
+      "Five of the top ten LGAs are in metropolitan Melbourne.",
+      "Circle area represents bicycle-only commuters, 2021 Census."
+    ],
+    "anchor": "start",
+    "fontSize": 20,
+    "subtitleFontSize": 12,
+    "offset": 15
+  },
+  "config": {
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    },
+    "legend": {
+      "titleFontSize": 12,
+      "labelFontSize": 11
+    }
+  },
+  "background": "white"
+}

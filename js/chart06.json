@@ -1,0 +1,372 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "background": "#ffffff",
+  "title": {
+    "text": "Walking exceeds cycling in every state and territory",
+    "subtitle": [
+      "The largest gap is in NT; South Australia has the smallest.",
+      "2021 Census • Shares of all employed people, by place of usual residence."
+    ],
+    "anchor": "start",
+    "fontSize": 20,
+    "subtitleFontSize": 12,
+    "subtitlePadding": 8,
+    "offset": 18,
+    "color": "#243746"
+  },
+  "data": {
+    "values": [
+      {
+        "State": "New South Wales",
+        "Bicycle": 14466,
+        "Walking": 92368,
+        "Employed": 3684158
+      },
+      {
+        "State": "Victoria",
+        "Bicycle": 22267,
+        "Walking": 72373,
+        "Employed": 3162893
+      },
+      {
+        "State": "Queensland",
+        "Bicycle": 17121,
+        "Walking": 63580,
+        "Employed": 2444090
+      },
+      {
+        "State": "South Australia",
+        "Bicycle": 7318,
+        "Walking": 20575,
+        "Employed": 839414
+      },
+      {
+        "State": "Western Australia",
+        "Bicycle": 8746,
+        "Walking": 28115,
+        "Employed": 1306249
+      },
+      {
+        "State": "Tasmania",
+        "Bicycle": 1776,
+        "Walking": 10785,
+        "Employed": 254722
+      },
+      {
+        "State": "Northern Territory",
+        "Bicycle": 2153,
+        "Walking": 8115,
+        "Employed": 107035
+      },
+      {
+        "State": "Australian Capital Territory",
+        "Bicycle": 5220,
+        "Walking": 9988,
+        "Employed": 248603
+      }
+    ]
+  },
+  "transform": [
+    {
+      "calculate": "datum.Bicycle / datum.Employed",
+      "as": "CyclingShare"
+    },
+    {
+      "calculate": "datum.Walking / datum.Employed",
+      "as": "WalkingShare"
+    },
+    {
+      "calculate": "(datum.WalkingShare - datum.CyclingShare) * 100",
+      "as": "Gap"
+    }
+  ],
+  "spacing": 18,
+  "vconcat": [
+    {
+      "width": 640,
+      "height": 360,
+      "encoding": {
+        "y": {
+          "field": "State",
+          "type": "nominal",
+          "sort": [
+            "Northern Territory",
+            "Tasmania",
+            "Australian Capital Territory",
+            "Queensland",
+            "New South Wales",
+            "South Australia",
+            "Victoria",
+            "Western Australia"
+          ],
+          "title": null,
+          "axis": {
+            "labelFontSize": 12,
+            "labelLimit": 220,
+            "labelPadding": 12,
+            "ticks": false,
+            "domain": false
+          }
+        }
+      },
+      "layer": [
+        {
+          "mark": {
+            "type": "rule",
+            "strokeWidth": 4,
+            "color": "#cbd5e1"
+          },
+          "encoding": {
+            "x": {
+              "field": "CyclingShare",
+              "type": "quantitative",
+              "title": "Share of employed people",
+              "scale": {
+                "domain": [
+                  0,
+                  0.085
+                ],
+                "nice": false
+              },
+              "axis": {
+                "format": ".0%",
+                "values": [
+                  0,
+                  0.01,
+                  0.02,
+                  0.03,
+                  0.04,
+                  0.05,
+                  0.06,
+                  0.07,
+                  0.08
+                ],
+                "gridColor": "#e5e7eb",
+                "labelPadding": 7,
+                "titlePadding": 14
+              }
+            },
+            "x2": {
+              "field": "WalkingShare"
+            },
+            "tooltip": [
+              {
+                "field": "State",
+                "type": "nominal",
+                "title": "State / territory"
+              },
+              {
+                "field": "CyclingShare",
+                "type": "quantitative",
+                "title": "Bicycle only",
+                "format": ".2%"
+              },
+              {
+                "field": "WalkingShare",
+                "type": "quantitative",
+                "title": "Walked only",
+                "format": ".2%"
+              },
+              {
+                "field": "Gap",
+                "type": "quantitative",
+                "title": "Gap (percentage points)",
+                "format": ".2f"
+              }
+            ]
+          }
+        },
+        {
+          "transform": [
+            {
+              "fold": [
+                "CyclingShare",
+                "WalkingShare"
+              ],
+              "as": [
+                "Measure",
+                "Share"
+              ]
+            },
+            {
+              "calculate": "datum.Measure == 'CyclingShare' ? 'Bicycle only' : 'Walked only'",
+              "as": "Mode"
+            },
+            {
+              "calculate": "datum.Measure == 'CyclingShare' ? datum.Bicycle : datum.Walking",
+              "as": "Count"
+            }
+          ],
+          "mark": {
+            "type": "point",
+            "filled": true,
+            "size": 180,
+            "stroke": "#ffffff",
+            "strokeWidth": 1.5
+          },
+          "encoding": {
+            "x": {
+              "field": "Share",
+              "type": "quantitative"
+            },
+            "color": {
+              "field": "Mode",
+              "type": "nominal",
+              "scale": {
+                "domain": [
+                  "Bicycle only",
+                  "Walked only"
+                ],
+                "range": [
+                  "#E66100",
+                  "#0072B2"
+                ]
+              },
+              "legend": {
+                "title": null,
+                "orient": "top",
+                "direction": "horizontal",
+                "symbolSize": 150,
+                "labelFontSize": 12
+              }
+            },
+            "tooltip": [
+              {
+                "field": "State",
+                "type": "nominal",
+                "title": "State / territory"
+              },
+              {
+                "field": "Mode",
+                "type": "nominal",
+                "title": "Travel mode"
+              },
+              {
+                "field": "Share",
+                "type": "quantitative",
+                "title": "Share of employed people",
+                "format": ".2%"
+              },
+              {
+                "field": "Count",
+                "type": "quantitative",
+                "title": "Commuters",
+                "format": ","
+              }
+            ]
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "dy": -15,
+            "fontSize": 11,
+            "fontWeight": "bold",
+            "color": "#C45100"
+          },
+          "encoding": {
+            "x": {
+              "field": "CyclingShare",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "CyclingShare",
+              "type": "quantitative",
+              "format": ".2%"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "dy": -15,
+            "fontSize": 11,
+            "fontWeight": "bold",
+            "color": "#0072B2"
+          },
+          "encoding": {
+            "x": {
+              "field": "WalkingShare",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "WalkingShare",
+              "type": "quantitative",
+              "format": ".2%"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "width": 640,
+      "height": 65,
+      "data": {
+        "values": [
+          {
+            "Note": "The Northern Territory had the widest gap: walking exceeded cycling\nby 5.57 percentage points (7.58% versus 2.01%).\nACT had the highest cycling share, at 2.10%, using this dataset."
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "top",
+        "fontSize": 12,
+        "lineBreak": "\n",
+        "lineHeight": 20,
+        "color": "#374151"
+      },
+      "encoding": {
+        "x": {
+          "value": 0
+        },
+        "y": {
+          "value": 0
+        },
+        "text": {
+          "field": "Note"
+        }
+      }
+    },
+    {
+      "width": 640,
+      "height": 48,
+      "data": {},
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "top",
+        "fontSize": 10,
+        "lineBreak": "\n",
+        "lineHeight": 15,
+        "color": "#64748b"
+      },
+      "encoding": {
+        "x": {
+          "value": 0
+        },
+        "y": {
+          "value": 0
+        },
+        "text": {
+          "field": "Source"
+        }
+      }
+    }
+  ],
+  "config": {
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "domain": false,
+      "tickColor": "#cbd5e1",
+      "labelFontSize": 12,
+      "titleFontSize": 12,
+      "labelColor": "#374151",
+      "titleColor": "#374151"
+    }
+  }
+}

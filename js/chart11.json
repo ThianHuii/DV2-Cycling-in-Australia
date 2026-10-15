@@ -1,0 +1,261 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "background": "#ffffff",
+  "title": {
+    "text": "Sydney City contributes 54.3% of the recorded regional count",
+    "subtitle": [
+      "Its contribution exceeds the other four regional groups combined.",
+      "Regional bicycle counts, 2018 • Rectangle area represents each group's share."
+    ],
+    "anchor": "start",
+    "fontSize": 20,
+    "subtitleFontSize": 12,
+    "subtitlePadding": 8,
+    "offset": 18,
+    "color": "#243746"
+  },
+  "data": {
+    "values": [
+      {
+        "Region": "Sydney City",
+        "Count": 3702,
+        "Share": 54.27,
+        "X0": 0,
+        "X1": 54.2656,
+        "Y0": 0,
+        "Y1": 100,
+        "LabelX": 27.1328,
+        "LabelY": 50,
+        "Name": "Sydney City",
+        "Percent": "54.3%"
+      },
+      {
+        "Region": "Inner North",
+        "Count": 798,
+        "Share": 11.7,
+        "X0": 54.2656,
+        "X1": 65.9631,
+        "Y0": 0,
+        "Y1": 100,
+        "LabelX": 60.1144,
+        "LabelY": 50,
+        "Name": "Inner\nNorth",
+        "Percent": "11.7%"
+      },
+      {
+        "Region": "Inner West",
+        "Count": 994,
+        "Share": 14.57,
+        "X0": 65.9631,
+        "X1": 100,
+        "Y0": 0,
+        "Y1": 42.8079,
+        "LabelX": 82.9815,
+        "LabelY": 21.404,
+        "Name": "Inner West",
+        "Percent": "14.6%"
+      },
+      {
+        "Region": "North West",
+        "Count": 592,
+        "Share": 8.68,
+        "X0": 65.9631,
+        "X1": 81.1362,
+        "Y0": 42.8079,
+        "Y1": 100,
+        "LabelX": 73.5496,
+        "LabelY": 71.404,
+        "Name": "North\nWest",
+        "Percent": "8.7%"
+      },
+      {
+        "Region": "Other",
+        "Count": 736,
+        "Share": 10.78,
+        "X0": 81.1362,
+        "X1": 100,
+        "Y0": 42.8079,
+        "Y1": 100,
+        "LabelX": 90.5681,
+        "LabelY": 71.404,
+        "Name": "Other",
+        "Percent": "10.8%"
+      }
+    ]
+  },
+  "spacing": 18,
+  "vconcat": [
+    {
+      "width": 700,
+      "height": 400,
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "stroke": "#ffffff",
+            "strokeWidth": 3
+          },
+          "encoding": {
+            "x": {
+              "field": "X0",
+              "type": "quantitative",
+              "scale": {
+                "domain": [
+                  0,
+                  100
+                ],
+                "nice": false
+              },
+              "axis": null
+            },
+            "x2": {
+              "field": "X1"
+            },
+            "y": {
+              "field": "Y0",
+              "type": "quantitative",
+              "scale": {
+                "domain": [
+                  100,
+                  0
+                ],
+                "nice": false
+              },
+              "axis": null
+            },
+            "y2": {
+              "field": "Y1"
+            },
+            "color": {
+              "field": "Region",
+              "type": "nominal",
+              "scale": {
+                "domain": [
+                  "Sydney City",
+                  "Inner North",
+                  "Inner West",
+                  "North West",
+                  "Other"
+                ],
+                "range": [
+                  "#B34D00",
+                  "#0072B2",
+                  "#007F60",
+                  "#7651A8",
+                  "#546477"
+                ]
+              },
+              "legend": null
+            },
+            "tooltip": [
+              {
+                "field": "Region",
+                "type": "nominal",
+                "title": "Region"
+              },
+              {
+                "field": "Count",
+                "type": "quantitative",
+                "title": "Bicycle count",
+                "format": ","
+              },
+              {
+                "field": "Share",
+                "type": "quantitative",
+                "title": "Share of dataset total (%)",
+                "format": ".1f"
+              }
+            ]
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "fontSize": 15,
+            "fontWeight": "bold",
+            "lineBreak": "\n",
+            "lineHeight": 19,
+            "dy": -18,
+            "color": "#ffffff"
+          },
+          "encoding": {
+            "x": {
+              "field": "LabelX",
+              "type": "quantitative",
+              "axis": null
+            },
+            "y": {
+              "field": "LabelY",
+              "type": "quantitative",
+              "axis": null
+            },
+            "text": {
+              "field": "Name"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "fontSize": 20,
+            "fontWeight": "bold",
+            "dy": 19,
+            "color": "#ffffff"
+          },
+          "encoding": {
+            "x": {
+              "field": "LabelX",
+              "type": "quantitative",
+              "axis": null
+            },
+            "y": {
+              "field": "LabelY",
+              "type": "quantitative",
+              "axis": null
+            },
+            "text": {
+              "field": "Percent"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "width": 700,
+      "height": 65,
+      "data": {
+        "values": [
+          {
+            "Note": "Sydney City's count of 3,702 is about 3.7 times Inner West's 994,\nthe next-largest regional contribution.\nThese shares describe the supplied counter dataset, not all cycling in Sydney."
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "top",
+        "fontSize": 12,
+        "lineBreak": "\n",
+        "lineHeight": 20,
+        "color": "#374151"
+      },
+      "encoding": {
+        "x": {
+          "value": 0
+        },
+        "y": {
+          "value": 0
+        },
+        "text": {
+          "field": "Note"
+        }
+      }
+    }
+  ],
+  "config": {
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    }
+  }
+}

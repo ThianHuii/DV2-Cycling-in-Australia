@@ -1,0 +1,456 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "background": "#ffffff",
+  "title": {
+    "text": "June was the quietest month at all three cycling counters",
+    "subtitle": [
+      "The two bridge counters peaked in February; North Ryde peaked in April.",
+      "October 2018–September 2019 • 100 = each counter’s 12-month average."
+    ],
+    "anchor": "start",
+    "fontSize": 20,
+    "subtitleFontSize": 12,
+    "subtitlePadding": 8,
+    "offset": 18,
+    "color": "#243746"
+  },
+  "spacing": 18,
+  "vconcat": [
+    {
+      "width": 600,
+      "height": 600,
+      "encoding": {
+        "x": {
+          "field": "X",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              -155,
+              155
+            ],
+            "nice": false
+          },
+          "axis": null
+        },
+        "y": {
+          "field": "Y",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              -155,
+              155
+            ],
+            "nice": false
+          },
+          "axis": null
+        }
+      },
+      "layer": [
+        {
+          "data": {
+            "values": [
+              {
+                "Level": 50
+              },
+              {
+                "Level": 75
+              },
+              {
+                "Level": 125
+              }
+            ]
+          },
+          "transform": [
+            {
+              "calculate": "sequence(0, 73)",
+              "as": "Step"
+            },
+            {
+              "flatten": [
+                "Step"
+              ]
+            },
+            {
+              "calculate": "datum.Level * sin(datum.Step * 2 * PI / 72)",
+              "as": "X"
+            },
+            {
+              "calculate": "datum.Level * cos(datum.Step * 2 * PI / 72)",
+              "as": "Y"
+            }
+          ],
+          "mark": {
+            "type": "line",
+            "color": "#e2e8f0",
+            "strokeWidth": 1
+          },
+          "encoding": {
+            "detail": {
+              "field": "Level"
+            },
+            "order": {
+              "field": "Step",
+              "type": "quantitative"
+            }
+          }
+        },
+        {
+          "data": {
+            "values": [
+              {}
+            ]
+          },
+          "transform": [
+            {
+              "calculate": "sequence(0, 73)",
+              "as": "Step"
+            },
+            {
+              "flatten": [
+                "Step"
+              ]
+            },
+            {
+              "calculate": "100 * sin(datum.Step * 2 * PI / 72)",
+              "as": "X"
+            },
+            {
+              "calculate": "100 * cos(datum.Step * 2 * PI / 72)",
+              "as": "Y"
+            }
+          ],
+          "mark": {
+            "type": "line",
+            "color": "#64748b",
+            "strokeWidth": 1.5,
+            "strokeDash": [
+              5,
+              4
+            ]
+          },
+          "encoding": {
+            "order": {
+              "field": "Step",
+              "type": "quantitative"
+            }
+          }
+        },
+        {
+          "data": {
+            "values": [
+              {}
+            ]
+          },
+          "transform": [
+            {
+              "calculate": "sequence(0, 12)",
+              "as": "Step"
+            },
+            {
+              "flatten": [
+                "Step"
+              ]
+            },
+            {
+              "calculate": "130 * sin(datum.Step * PI / 6)",
+              "as": "X"
+            },
+            {
+              "calculate": "130 * cos(datum.Step * PI / 6)",
+              "as": "Y"
+            }
+          ],
+          "mark": {
+            "type": "rule",
+            "color": "#e2e8f0",
+            "strokeWidth": 1
+          },
+          "encoding": {
+            "x2": {
+              "datum": 0
+            },
+            "y2": {
+              "datum": 0
+            }
+          }
+        },
+        {
+          "data": {
+            "values": [
+              {
+                "Counter": "Sydney Harbour Bridge",
+                "Counts": "1744,1974,1549,1807,2095,1880,1780,1958,1348,1618,1572,1581",
+                "Indices": "100.1,113.3,88.9,103.7,120.3,107.9,102.2,112.4,77.4,92.9,90.2,90.7"
+              },
+              {
+                "Counter": "Anzac Bridge",
+                "Counts": "1249,1433,1122,1299,1571,1460,1341,1447,1083,1239,1219,1217",
+                "Indices": "95.6,109.7,85.9,99.4,120.2,111.7,102.6,110.7,82.9,94.8,93.3,93.1"
+              },
+              {
+                "Counter": "North Ryde to Sydney Olympic Park",
+                "Counts": "379,376,377,418,411,401,450,396,319,361,329,331",
+                "Indices": "100.0,99.2,99.5,110.3,108.4,105.8,118.7,104.5,84.2,95.3,86.8,87.3"
+              }
+            ]
+          },
+          "transform": [
+            {
+              "calculate": "split(datum.Counts, ',')",
+              "as": "CountArray"
+            },
+            {
+              "calculate": "split(datum.Indices, ',')",
+              "as": "IndexArray"
+            },
+            {
+              "calculate": "sequence(0, 13)",
+              "as": "Step"
+            },
+            {
+              "flatten": [
+                "Step"
+              ]
+            },
+            {
+              "calculate": "toNumber(datum.IndexArray[datum.Step % 12])",
+              "as": "Index"
+            },
+            {
+              "calculate": "toNumber(datum.CountArray[datum.Step % 12])",
+              "as": "Count"
+            },
+            {
+              "calculate": "['Oct 2018','Nov 2018','Dec 2018','Jan 2019','Feb 2019','Mar 2019','Apr 2019','May 2019','Jun 2019','Jul 2019','Aug 2019','Sep 2019'][datum.Step % 12]",
+              "as": "Month"
+            },
+            {
+              "calculate": "datum.Index - 100",
+              "as": "Difference"
+            },
+            {
+              "calculate": "datum.Index * sin(datum.Step * PI / 6)",
+              "as": "X"
+            },
+            {
+              "calculate": "datum.Index * cos(datum.Step * PI / 6)",
+              "as": "Y"
+            }
+          ],
+          "mark": {
+            "type": "line",
+            "strokeWidth": 3,
+            "point": {
+              "filled": true,
+              "size": 65
+            }
+          },
+          "encoding": {
+            "detail": {
+              "field": "Counter"
+            },
+            "order": {
+              "field": "Step",
+              "type": "quantitative"
+            },
+            "color": {
+              "field": "Counter",
+              "type": "nominal",
+              "title": "Cycling counter",
+              "scale": {
+                "domain": [
+                  "Sydney Harbour Bridge",
+                  "Anzac Bridge",
+                  "North Ryde to Sydney Olympic Park"
+                ],
+                "range": [
+                  "#E66100",
+                  "#0072B2",
+                  "#009E73"
+                ]
+              },
+              "legend": {
+                "orient": "bottom",
+                "direction": "vertical",
+                "labelLimit": 350,
+                "labelFontSize": 12,
+                "titleFontSize": 12,
+                "symbolType": "stroke",
+                "symbolStrokeWidth": 3
+              }
+            },
+            "tooltip": [
+              {
+                "field": "Counter",
+                "title": "Counter"
+              },
+              {
+                "field": "Month",
+                "title": "Month"
+              },
+              {
+                "field": "Count",
+                "type": "quantitative",
+                "title": "Reported count",
+                "format": ","
+              },
+              {
+                "field": "Index",
+                "type": "quantitative",
+                "title": "Seasonal index",
+                "format": ".1f"
+              },
+              {
+                "field": "Difference",
+                "type": "quantitative",
+                "title": "% above / below average",
+                "format": "+.1f"
+              }
+            ]
+          }
+        },
+        {
+          "data": {
+            "values": [
+              {}
+            ]
+          },
+          "transform": [
+            {
+              "calculate": "sequence(0, 12)",
+              "as": "Step"
+            },
+            {
+              "flatten": [
+                "Step"
+              ]
+            },
+            {
+              "calculate": "140 * sin(datum.Step * PI / 6)",
+              "as": "X"
+            },
+            {
+              "calculate": "140 * cos(datum.Step * PI / 6)",
+              "as": "Y"
+            },
+            {
+              "calculate": "['Oct','Nov','Dec','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep'][datum.Step]",
+              "as": "Month"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "fontSize": 14,
+            "fontWeight": "bold",
+            "color": "#243746"
+          },
+          "encoding": {
+            "text": {
+              "field": "Month"
+            }
+          }
+        },
+        {
+          "data": {
+            "values": [
+              {
+                "X": -35.4,
+                "Y": 35.4,
+                "Label": "50"
+              },
+              {
+                "X": -53,
+                "Y": 53,
+                "Label": "75"
+              },
+              {
+                "X": -70.7,
+                "Y": 70.7,
+                "Label": "100"
+              },
+              {
+                "X": -88.4,
+                "Y": 88.4,
+                "Label": "125"
+              }
+            ]
+          },
+          "mark": {
+            "type": "text",
+            "fontSize": 10,
+            "color": "#64748b",
+            "dy": -7
+          },
+          "encoding": {
+            "text": {
+              "field": "Label"
+            }
+          }
+        },
+        {
+          "data": {
+            "values": [
+              {
+                "X": 0,
+                "Y": 6,
+                "Label": "Seasonal index"
+              },
+              {
+                "X": 0,
+                "Y": -6,
+                "Label": "100 = average"
+              }
+            ]
+          },
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "color": "#475569"
+          },
+          "encoding": {
+            "text": {
+              "field": "Label"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "width": 600,
+      "height": 100,
+      "data": {
+        "values": [
+          {
+            "Note": "June counts were 22.6% below average at Sydney Harbour Bridge,\n17.1% below at Anzac Bridge and 15.8% below on the North Ryde route.\n\nOutside the dashed ring = above average; inside = below average.\nThis shows one annual cycle, rather than a recurring pattern across several years."
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "top",
+        "fontSize": 12,
+        "lineBreak": "\n",
+        "lineHeight": 19,
+        "color": "#374151"
+      },
+      "encoding": {
+        "x": {
+          "value": 0
+        },
+        "y": {
+          "value": 0
+        },
+        "text": {
+          "field": "Note"
+        }
+      }
+    }
+  ],
+  "config": {
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    }
+  }
+}

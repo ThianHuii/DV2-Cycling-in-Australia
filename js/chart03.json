@@ -1,0 +1,336 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 650,
+  "height": 480,
+  "background": "#ffffff",
+  "padding": 20,
+  "title": {
+    "text": "Where do Australians cycle to work?",
+    "subtitle": [
+      "NT had the highest bicycle-only share: 1.95%.",
+      "2021 Census • Workers grouped by place of work."
+    ],
+    "anchor": "start",
+    "fontSize": 22,
+    "color": "#243746",
+    "subtitleFontSize": 12,
+    "subtitleColor": "#555555",
+    "subtitlePadding": 10,
+    "offset": 20
+  },
+  "projection": {
+    "type": "mercator"
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/australian-states.geojson",
+        "format": {
+          "type": "json",
+          "property": "features"
+        }
+      },
+      "transform": [
+        {
+          "calculate": "datum.properties.STATE_NAME || datum.properties.name",
+          "as": "State"
+        },
+        {
+          "lookup": "State",
+          "from": {
+            "data": {
+              "values": [
+                {
+                  "State": "New South Wales",
+                  "Bicycle": 14409,
+                  "Total_employed": 3672240
+                },
+                {
+                  "State": "Victoria",
+                  "Bicycle": 22268,
+                  "Total_employed": 3163746
+                },
+                {
+                  "State": "Queensland",
+                  "Bicycle": 17078,
+                  "Total_employed": 2428219
+                },
+                {
+                  "State": "South Australia",
+                  "Bicycle": 7310,
+                  "Total_employed": 834812
+                },
+                {
+                  "State": "Western Australia",
+                  "Bicycle": 8756,
+                  "Total_employed": 1308799
+                },
+                {
+                  "State": "Tasmania",
+                  "Bicycle": 1760,
+                  "Total_employed": 252238
+                },
+                {
+                  "State": "Northern Territory",
+                  "Bicycle": 2188,
+                  "Total_employed": 112217
+                },
+                {
+                  "State": "Australian Capital Territory",
+                  "Bicycle": 5295,
+                  "Total_employed": 274375
+                }
+              ]
+            },
+            "key": "State",
+            "fields": [
+              "Bicycle",
+              "Total_employed"
+            ]
+          }
+        },
+        {
+          "calculate": "datum.Bicycle / datum.Total_employed",
+          "as": "Share"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "stroke": "#ffffff",
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "color": {
+          "condition": {
+            "test": "isValid(datum.Share)",
+            "field": "Share",
+            "type": "quantitative",
+            "scale": {
+              "type": "threshold",
+              "domain": [
+                0.005,
+                0.0075,
+                0.01,
+                0.015
+              ],
+              "range": [
+                "#FFFFB2",
+                "#FECC5C",
+                "#FD8D3C",
+                "#E31A1C",
+                "#800026"
+              ]
+            },
+            "legend": {
+              "title": "Bicycle-only commuting share",
+              "orient": "bottom",
+              "direction": "horizontal",
+              "format": ".2%",
+              "titleFontSize": 12,
+              "labelFontSize": 11,
+              "symbolType": "square",
+              "symbolSize": 180,
+              "offset": 18,
+              "type": "symbol",
+              "columns": 3,
+              "labelLimit": 170,
+              "titleLimit": 350
+            }
+          },
+          "value": "#dddddd"
+        },
+        "tooltip": [
+          {
+            "field": "State",
+            "type": "nominal",
+            "title": "State / territory"
+          },
+          {
+            "field": "Share",
+            "type": "quantitative",
+            "title": "Bicycle-only commuting share",
+            "format": ".2%"
+          },
+          {
+            "field": "Bicycle",
+            "type": "quantitative",
+            "title": "Bicycle-only commuters",
+            "format": ","
+          },
+          {
+            "field": "Total_employed",
+            "type": "quantitative",
+            "title": "Employed people aged 15+",
+            "format": ","
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "Label": "WA",
+            "Longitude": 122,
+            "Latitude": -26
+          },
+          {
+            "Label": "NT",
+            "Longitude": 133.4,
+            "Latitude": -20
+          },
+          {
+            "Label": "SA",
+            "Longitude": 135.5,
+            "Latitude": -30
+          },
+          {
+            "Label": "QLD",
+            "Longitude": 145,
+            "Latitude": -23
+          },
+          {
+            "Label": "NSW",
+            "Longitude": 147,
+            "Latitude": -32
+          },
+          {
+            "Label": "VIC",
+            "Longitude": 144.5,
+            "Latitude": -36.8
+          },
+          {
+            "Label": "TAS",
+            "Longitude": 146.7,
+            "Latitude": -42
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "fontSize": 13,
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "Longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "Latitude",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "Label"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.Label == 'NT'",
+            "value": "#ffffff"
+          },
+          "value": "#243746"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "Longitude": 149.1,
+            "Latitude": -35.4,
+            "EndLongitude": 153.5,
+            "EndLatitude": -37
+          }
+        ]
+      },
+      "mark": {
+        "type": "rule",
+        "color": "#555555",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "longitude": {
+          "field": "Longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "Latitude",
+          "type": "quantitative"
+        },
+        "longitude2": {
+          "field": "EndLongitude"
+        },
+        "latitude2": {
+          "field": "EndLatitude"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "Longitude": 153.7,
+            "Latitude": -37,
+            "Label": "ACT: 1.93%"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "color": "#243746"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "Longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "Latitude",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "Label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "Note": "NT's share was almost five times NSW's\n(1.95% versus 0.39%)."
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "top",
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "color": "#243746",
+        "lineBreak": "\n",
+        "lineHeight": 18
+      },
+      "encoding": {
+        "x": {
+          "value": 12
+        },
+        "y": {
+          "value": 395
+        },
+        "text": {
+          "field": "Note"
+        }
+      }
+    }
+  ],
+  "config": {
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    }
+  }
+}
